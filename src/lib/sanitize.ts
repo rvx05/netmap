@@ -1,13 +1,15 @@
-import { JSDOM } from "jsdom"
-import DOMPurify from "dompurify"
-import type { DOMPurify as DOMPurifyType } from "dompurify"
+let purify: Awaited<ReturnType<typeof DOMPurifyInit>> | null = null
 
-let purify: DOMPurifyType | null = null
+async function DOMPurifyInit() {
+  const { JSDOM } = await import("jsdom")
+  const DOMPurify = (await import("dompurify")).default
+  const window = new JSDOM("").window
+  return DOMPurify(window as any)
+}
 
-export function sanitize(input: string): string {
+export async function sanitize(input: string): Promise<string> {
   if (!purify) {
-    const window = new JSDOM("").window
-    purify = DOMPurify(window as any)
+    purify = await DOMPurifyInit()
   }
   return purify.sanitize(input)
 }

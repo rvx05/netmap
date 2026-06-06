@@ -30,7 +30,7 @@ export async function bulkImportScans(
 
   for (const file of files) {
     try {
-      const rawOutput = sanitize(await file.text())
+      const rawOutput = await sanitize(await file.text())
       const baseName =
         file.name.replace(/\.[^.]+$/, "").replace(/[_-]/g, " ").trim() || "Untitled"
 
