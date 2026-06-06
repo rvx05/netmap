@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  scans     Scan[]
+
+  @@map("users")
+}
+
+model Scan {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetName String   @db.VarChar(100) @map("target_name")
+  rawOutput  String   @db.Text @map("raw_output")
+  parsedData Json     @map("parsed_data")
+  aiReport   Json?    @map("ai_report")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@unique([userId, targetName])
+  @@index([userId])
+  @@index([createdAt(sort: Desc)])
+  @@map("scans")
+}
