@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NetMap AI
+
+AI-powered network reconnaissance workspace. Upload Nmap scan results to generate interactive topology graphs with AI-driven security analysis, CVE lookup, port filtering, and scan comparison.
+
+Built with [Next.js 16](https://nextjs.org) (App Router), [Supabase](https://supabase.com) (Postgres + Auth), [React Flow](https://reactflow.dev), [Groq AI](https://groq.com), and [Tailwind CSS](https://tailwindcss.com).
+
+## Features
+
+- **Scan Import** — paste raw Nmap output or upload XML files
+- **Topology Visualization** — interactive graph with port filtering and collapsible IP nodes
+- **AI Analysis** — automatic security assessment with remediation commands (iptables, UFW, AWS SG)
+- **CVE Lookup** — check discovered services against the NVD database
+- **Scan Comparison** — side-by-side diff of any two scans
+- **AI Chat** — ask questions about scan results conversationally
+- **Tags & Webhooks** — organize scans and get notified on new results
+- **Theme** — dark/light brutalist terminal aesthetic
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Database | Supabase (Postgres) |
+| Auth | Supabase Auth (SSR) |
+| AI | Groq via `@ai-sdk/openai` |
+| Topology | `@xyflow/react` (React Flow) |
+| Rate Limiting | Upstash Redis |
+| Styling | Tailwind CSS v4 |
+| Testing | Vitest + React Testing Library + Playwright |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+git clone https://github.com/rvx05/netmap.git
+cd netmap
+cp .env.local.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Fill in all required environment variables in `.env.local` before running.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Running Tests
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test            # unit tests (Vitest)
+npm run test:e2e    # E2E tests (Playwright — requires dev server)
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rvx05/netmap)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set all environment variables in the Vercel project settings before deploying.
