@@ -47,8 +47,3 @@ npm test            # unit tests (Vitest)
 npm run test:e2e    # E2E tests (Playwright — requires dev server)
 ```
 
-## Deployment
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rvx05/netmap)
-
-Set all environment variables in the Vercel project settings before deploying.
