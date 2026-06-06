@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
-import { streamText, type ModelMessage } from "ai"
+import { streamText, type ModelMessage, type UserModelMessage, type AssistantModelMessage } from "ai"
 import { model } from "@/lib/ai/model"
 
 export async function POST(request: NextRequest) {
@@ -67,10 +67,10 @@ ${JSON.stringify(scan.parsed_data, null, 2)}
 
 ${scan.ai_report ? `Initial Analysis:\n${JSON.stringify(scan.ai_report, null, 2)}` : ""}`
 
-  const messages: CoreMessage[] = [
-    { role: "system", content: systemPrompt },
-    ...(history || []).map((m: { role: string; content: string }) => ({
-      role: (["user", "assistant"].includes(m.role) ? m.role : "user") as CoreMessage["role"],
+  const messages: ModelMessage[] = [
+    { role: "system", content: systemPrompt } satisfies ModelMessage,
+    ...(history || []).map((m): UserModelMessage | AssistantModelMessage => ({
+      role: (["user", "assistant"].includes(m.role) ? m.role : "user") as "user" | "assistant",
       content: m.content,
     })),
   ]
