@@ -41,7 +41,7 @@ export async function createScan(
     }
   }
 
-  const sanitizedOutput = await sanitize(parsed.data.rawOutput)
+  const sanitizedOutput = sanitize(parsed.data.rawOutput)
 
   const parserResult = parseNmapOutput(sanitizedOutput)
 
