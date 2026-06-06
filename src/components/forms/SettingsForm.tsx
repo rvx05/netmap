@@ -10,7 +10,7 @@ export function SettingsForm({
   webhookUrl: string | null
   notifyOnScan: boolean
 }) {
-  const [state, action, pending] = useActionState(saveSettings, undefined)
+  const [state, action, pending] = useActionState((_prev: unknown, formData: FormData) => saveSettings(formData), undefined)
 
   return (
     <form action={action} className="space-y-6">
